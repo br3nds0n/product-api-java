@@ -1,7 +1,9 @@
 package br.com.api.sistema.controller;
 
 import br.com.api.sistema.DTO.CategoriaDTO;
+import br.com.api.sistema.DTO.ProdutoDTO;
 import br.com.api.sistema.entity.Categoria;
+import br.com.api.sistema.entity.Produto;
 import br.com.api.sistema.service.CategoriaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -41,5 +43,27 @@ public class CategoriaController {
                 .stream()
                 .map(this::toCatogriaDTO)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaDTO> obterCategoriaPorId(@PathVariable Long id) {
+        Categoria categoria = this.CATEGORIA_SERVICE.obterCategoriaPorId(id);
+
+        return new ResponseEntity<>(toCatogriaDTO(categoria), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaDTO> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoria) {
+        Categoria categoriaAtualizada = this.MODEL_MAPPER.map(categoria, Categoria.class);
+        categoriaAtualizada = this.CATEGORIA_SERVICE.atualizarCategoria(id, categoriaAtualizada);
+
+        return new ResponseEntity<>(toCatogriaDTO(categoriaAtualizada), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarCategoria(@PathVariable Long id) {
+        this.CATEGORIA_SERVICE.deletarCategoria(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -60,7 +60,6 @@ public class ProdutoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarProduto(@PathVariable Long id) {
-
         this.PRODUTOR_SERVICE.deletarProduto(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
