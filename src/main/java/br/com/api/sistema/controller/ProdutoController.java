@@ -18,9 +18,9 @@ public class ProdutoController {
     private final ProdutoService PRODUTOR_SERVICE;
     private final ModelMapper MODEL_MAPPER;
 
-    public ProdutoController(ProdutoService PRODUTOR_SERVICE, ModelMapper MODEL_MAPPER) {
-        this.PRODUTOR_SERVICE = PRODUTOR_SERVICE;
-        this.MODEL_MAPPER = MODEL_MAPPER;
+    public ProdutoController(ProdutoService produtoService, ModelMapper modelMapper) {
+        this.PRODUTOR_SERVICE = produtoService;
+        this.MODEL_MAPPER = modelMapper;
     }
 
     private ProdutoDTO toProdutoDTO(Produto produto) {
