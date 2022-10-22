@@ -52,7 +52,7 @@ public class ProdutoService {
     }
 
     public void deletarProduto(Long id) {
-        Produto produto = this.obterProdutoPorId(id);
+        this.obterProdutoPorId(id);
         this.PRODUTOR_REPOSITORY.deleteById(id);
     }
 }
