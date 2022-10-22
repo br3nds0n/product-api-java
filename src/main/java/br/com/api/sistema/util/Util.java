@@ -15,6 +15,7 @@ public class Util {
     }
 
     public static void validarProduto(Produto produto) {
+        System.out.println(produto);
         if (produto.getQuantidade() <= 0 || produto.getValor() <= 0) throw new BadRequestException("Valor e quantidade não podem ser negativos!");
         validarNome(produto);
     }

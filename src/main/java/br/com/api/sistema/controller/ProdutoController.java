@@ -6,10 +6,10 @@ import br.com.api.sistema.service.ProdutoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/produto")
@@ -33,5 +33,36 @@ public class ProdutoController {
         novoProduto = this.PRODUTOR_SERVICE.criarProduto(novoProduto);
 
         return new ResponseEntity<>(toProdutoDTO(novoProduto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<ProdutoDTO> obterProdutos() {
+        return this.PRODUTOR_SERVICE.obterProdutos()
+                .stream()
+                .map(this::toProdutoDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> obterProdutoPorId(@PathVariable Long id) {
+        Produto produto = this.PRODUTOR_SERVICE.obterProdutoPorId(id);
+
+        return new ResponseEntity<>(toProdutoDTO(produto), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
+        Produto produtoAtualizado = this.MODEL_MAPPER.map(produto, Produto.class);
+        produtoAtualizado = this.PRODUTOR_SERVICE.atualizarProduto(id, produtoAtualizado);
+
+        return new ResponseEntity<>(toProdutoDTO(produtoAtualizado), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarProduto(@PathVariable Long id) {
+
+        this.PRODUTOR_SERVICE.deletarProduto(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
