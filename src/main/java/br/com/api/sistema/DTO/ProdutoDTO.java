@@ -1,9 +1,9 @@
 package br.com.api.sistema.DTO;
 
-public class ProdutoDTO {
+public class ProdutoDTO extends AbstractDTO {
 
     private Long id;
-    private String nome;
+
     private Integer quantidade;
     private Double valor;
 
@@ -13,14 +13,6 @@ public class ProdutoDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public Integer getQuantidade() {

@@ -12,8 +12,6 @@ public class Categoria extends AbstractEntity {
     @SequenceGenerator(name = "categoria_seq", allocationSize = 1)
     private Long id;
 
-    private String nome;
-
     @OneToMany
     @JoinTable(
             name = "categoria_produto",
@@ -40,13 +38,5 @@ public class Categoria extends AbstractEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 }
