@@ -8,11 +8,21 @@ import java.time.LocalDate;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    private String nome;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate criado;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate modificado;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public LocalDate getCriado() {
         return criado;
