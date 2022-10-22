@@ -18,9 +18,9 @@ public class CategoriaController {
     private final CategoriaService CATEGORIA_SERVICE;
     private final ModelMapper MODEL_MAPPER;
 
-    public CategoriaController(CategoriaService CATEGORIA_SERVICE, ModelMapper MODEL_MAPPER) {
-        this.CATEGORIA_SERVICE = CATEGORIA_SERVICE;
-        this.MODEL_MAPPER = MODEL_MAPPER;
+    public CategoriaController(CategoriaService categoriaService, ModelMapper modelMapper) {
+        this.CATEGORIA_SERVICE = categoriaService;
+        this.MODEL_MAPPER = modelMapper;
     }
 
     private CategoriaDTO toCatogriaDTO(Categoria categoria) {
