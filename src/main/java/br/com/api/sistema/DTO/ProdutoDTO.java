@@ -1,6 +1,6 @@
 package br.com.api.sistema.DTO;
 
-public class ProdutoDTO {
+public class ProdutoDTO extends AbstractDTO {
 
     private Long id;
 
