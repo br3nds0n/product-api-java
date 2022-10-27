@@ -11,13 +11,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionController {
 
+    /**
+     * Método para startar a classe de BadRequestException
+     * @param exception
+     * @return instância de Bad Request
+     */
     @ExceptionHandler(value = BadRequestException.class)
-    public ResponseEntity<ErrorMessage> badRequest(BadRequestException ex) {
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ex.getErro(), ex.getDescricao()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorMessage> badRequest(BadRequestException exception) {
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), exception.getErro(), exception.getDescricao()), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Método para startar a classe de NotFoundException
+     * @param exception
+     * @return instância de Not Found
+     */
     @ExceptionHandler(value = NotFoundException.class)
-    public ResponseEntity<ErrorMessage> notFound(NotFoundException ex) {
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ex.getErro(), ex.getDescricao()), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorMessage> notFound(NotFoundException exception) {
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.NOT_FOUND.value(), exception.getErro(), exception.getDescricao()), HttpStatus.NOT_FOUND);
     }
 }

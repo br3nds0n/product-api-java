@@ -15,29 +15,29 @@ import java.util.stream.Collectors;
 @RequestMapping("/produto")
 public class ProdutoController {
 
-    private final ProdutoService PRODUTOR_SERVICE;
-    private final ModelMapper MODEL_MAPPER;
+    private final ProdutoService produtoService;
+    private final ModelMapper modelMapper;
 
     public ProdutoController(ProdutoService produtoService, ModelMapper modelMapper) {
-        this.PRODUTOR_SERVICE = produtoService;
-        this.MODEL_MAPPER = modelMapper;
+        this.produtoService = produtoService;
+        this.modelMapper = modelMapper;
     }
 
     private ProdutoDTO toProdutoDTO(Produto produto) {
-        return this.MODEL_MAPPER.map(produto, ProdutoDTO.class);
+        return this.modelMapper.map(produto, ProdutoDTO.class);
     }
 
     @PostMapping
     public ResponseEntity<ProdutoDTO> criarProduto(@RequestBody ProdutoDTO produto) {
-        Produto novoProduto = this.MODEL_MAPPER.map(produto, Produto.class);
-        novoProduto = this.PRODUTOR_SERVICE.criarProduto(novoProduto);
+        Produto novoProduto = this.modelMapper.map(produto, Produto.class);
+        novoProduto = this.produtoService.criarObjeto(novoProduto);
 
         return new ResponseEntity<>(toProdutoDTO(novoProduto), HttpStatus.CREATED);
     }
 
     @GetMapping
     public List<ProdutoDTO> obterProdutos() {
-        return this.PRODUTOR_SERVICE.obterProdutos()
+        return this.produtoService.obterTodos()
                 .stream()
                 .map(this::toProdutoDTO)
                 .collect(Collectors.toList());
@@ -45,22 +45,22 @@ public class ProdutoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoDTO> obterProdutoPorId(@PathVariable Long id) {
-        Produto produto = this.PRODUTOR_SERVICE.obterProdutoPorId(id);
+        Produto produto = this.produtoService.obterObjetoPorId(id);
 
         return new ResponseEntity<>(toProdutoDTO(produto), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProdutoDTO> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
-        Produto produtoAtualizado = this.MODEL_MAPPER.map(produto, Produto.class);
-        produtoAtualizado = this.PRODUTOR_SERVICE.atualizarProduto(id, produtoAtualizado);
+        Produto produtoAtualizado = this.modelMapper.map(produto, Produto.class);
+        produtoAtualizado = this.produtoService.atualizarObjeto(id, produtoAtualizado);
 
         return new ResponseEntity<>(toProdutoDTO(produtoAtualizado), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarProduto(@PathVariable Long id) {
-        this.PRODUTOR_SERVICE.deletarProduto(id);
+        this.produtoService.deletarObjeto(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
