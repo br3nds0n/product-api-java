@@ -1,9 +1,7 @@
 package br.com.api.sistema.controller;
 
 import br.com.api.sistema.DTO.CategoriaDTO;
-import br.com.api.sistema.DTO.ProdutoDTO;
 import br.com.api.sistema.entity.Categoria;
-import br.com.api.sistema.entity.Produto;
 import br.com.api.sistema.service.CategoriaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -17,29 +15,29 @@ import java.util.stream.Collectors;
 @RequestMapping("/categoria")
 public class CategoriaController {
 
-    private final CategoriaService CATEGORIA_SERVICE;
-    private final ModelMapper MODEL_MAPPER;
+    private final CategoriaService categoriaService;
+    private final ModelMapper modelMapper;
 
     public CategoriaController(CategoriaService categoriaService, ModelMapper modelMapper) {
-        this.CATEGORIA_SERVICE = categoriaService;
-        this.MODEL_MAPPER = modelMapper;
+        this.categoriaService = categoriaService;
+        this.modelMapper = modelMapper;
     }
 
     private CategoriaDTO toCatogriaDTO(Categoria categoria) {
-        return this.MODEL_MAPPER.map(categoria, CategoriaDTO.class);
+        return this.modelMapper.map(categoria, CategoriaDTO.class);
     }
 
     @PostMapping
     public ResponseEntity<CategoriaDTO> criarCategoria(@RequestBody CategoriaDTO categoria) {
-        Categoria novaCategoria =  this.MODEL_MAPPER.map(categoria, Categoria.class);
-        novaCategoria = this.CATEGORIA_SERVICE.criarCategoria(novaCategoria);
+        Categoria novaCategoria =  this.modelMapper.map(categoria, Categoria.class);
+        novaCategoria = this.categoriaService.criarObjeto(novaCategoria);
 
         return new ResponseEntity<>(toCatogriaDTO(novaCategoria), HttpStatus.CREATED);
     }
 
     @GetMapping
     public List<CategoriaDTO> obterCategorias() {
-        return this.CATEGORIA_SERVICE.obterCategorias()
+        return this.categoriaService.obterTodos()
                 .stream()
                 .map(this::toCatogriaDTO)
                 .collect(Collectors.toList());
@@ -47,22 +45,22 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> obterCategoriaPorId(@PathVariable Long id) {
-        Categoria categoria = this.CATEGORIA_SERVICE.obterCategoriaPorId(id);
+        Categoria categoria = this.categoriaService.obterObjetoPorId(id);
 
         return new ResponseEntity<>(toCatogriaDTO(categoria), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaDTO> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoria) {
-        Categoria categoriaAtualizada = this.MODEL_MAPPER.map(categoria, Categoria.class);
-        categoriaAtualizada = this.CATEGORIA_SERVICE.atualizarCategoria(id, categoriaAtualizada);
+        Categoria categoriaAtualizada = this.modelMapper.map(categoria, Categoria.class);
+        categoriaAtualizada = this.categoriaService.atualizarObjeto(id, categoriaAtualizada);
 
         return new ResponseEntity<>(toCatogriaDTO(categoriaAtualizada), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarCategoria(@PathVariable Long id) {
-        this.CATEGORIA_SERVICE.deletarCategoria(id);
+        this.categoriaService.deletarObjeto(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
